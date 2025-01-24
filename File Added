@@ -1,1 +1,130 @@
-This is The file
+  return (
+    <>
+      <div id="model-wrapper">
+        <div id="wave-model">
+          <div id="cover-color">
+            <h1>Details</h1>
+            <div id="user-profile">
+              <img
+                src={posterIcon ? posterIcon : userIcon}
+                alt="user"
+                id="wave-user-icon"
+              />
+              <div id="creator-details">
+                <p id="creator-name">{posterName}</p>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="25"
+                viewBox="0 0 23 25"
+                fill="none"
+                onClick={() => setOpenModel(false)}
+              >
+                <ellipse
+                  cx="11.4194"
+                  cy="12.6786"
+                  rx="10.7319"
+                  ry="11.7643"
+                  fill="#DECAA5"
+                />
+                <line
+                  y1="-0.5"
+                  x2="15.924"
+                  y2="-0.5"
+                  transform="matrix(0.673947 0.738779 -0.673947 0.738779 6.64966 7.44995)"
+                  stroke="#B18D4B"
+                />
+                <line
+                  y1="-0.5"
+                  x2="15.924"
+                  y2="-0.5"
+                  transform="matrix(-0.673947 0.738779 0.673947 0.738779 17.3816 7.44995)"
+                  stroke="#B18D4B"
+                />
+              </svg>
+            </div>
+          </div>
+          <div id="wave-message-container">
+            <div id="message">
+              <h3>Message</h3>
+              <p>{waveMessage}</p>
+            </div>
+            <span id="image-height-line"></span>
+            <div id="image">
+              <img src={waveImage ? waveImage : ""} alt="" />
+            </div>
+          </div>
+          <div id="add-button-container">
+            
+            {!showInput && ( 
+              <button
+                id="add-comment"
+                type="button"
+                onClick={() => setShowInput(true)} 
+              >
+                Add Comments
+              </button>
+            )}
+            {showInput && (
+              <form id="comment-input" onSubmit={formik.handleSubmit}>
+                <div id="input-box">
+                  <input
+                    type="text"
+                    name="comment"
+                    id="comment"
+                    placeholder="Write something.."
+                    value={formik.values.comment}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.comment && formik.errors.comment ? (
+                    <div className="error" style={{marginTop:10}}>{formik.errors.comment}</div>
+                  ) : null}
+                </div>
+                <button
+                  type="button"
+                  id="post-comment"
+                  onClick={() => setShowInput(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" id="post-comment">
+                  {editCommentId ? "Update" : "Post"}{" "}
+                </button>
+              </form>
+            )}
+          </div>
+          
+          {comments.length > 0 ? (
+  comments.map((item) => (
+    <div key={item.id} id="comment-details">
+      <p id="commenter-message">
+        <b id="commenter-name">{item.commenterName} :</b> {item.comment}
+      </p>
+      {item.isSameUser && (
+        <div id="button-container">
+          <p
+            id="edit-button"
+            onClick={() => handleEditClick(item.id, item.comment)}
+          >
+            Edit&nbsp;|&nbsp;
+          </p>
+          <p
+            id="delete-button"
+            onClick={() => handleDeleteComment(item.id)}
+          >
+            Delete
+          </p>
+        </div>
+      )}
+    </div>
+  ))
+) : (
+  <p style={{marginTop:55 , marginLeft:7}}>No comments yet.</p>
+)}
+
+        </div>
+      </div>
+    </>
+  );
